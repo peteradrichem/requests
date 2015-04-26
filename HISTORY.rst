@@ -3,6 +3,121 @@
 Release History
 ---------------
 
+2.6.2 (2015-04-23)
+++++++++++++++++++
+
+**Bugfixes**
+
+- Fix regression where compressed data that was sent as chunked data was not
+  properly decompressed. (#2561)
+
+2.6.1 (2015-04-22)
+++++++++++++++++++
+
+**Bugfixes**
+
+- Remove VendorAlias import machinery introduced in v2.5.2.
+
+- Simplify the PreparedRequest.prepare API: We no longer require the user to
+  pass an empty list to the hooks keyword argument. (c.f. #2552)
+
+- Resolve redirects now receives and forwards all of the original arguments to
+  the adapter. (#2503)
+
+- Handle UnicodeDecodeErrors when trying to deal with a unicode URL that
+  cannot be encoded in ASCII. (#2540)
+
+- Populate the parsed path of the URI field when performing Digest
+  Authentication. (#2426)
+
+- Copy a PreparedRequest's CookieJar more reliably when it is not an instance
+  of RequestsCookieJar. (#2527)
+
+2.6.0 (2015-03-14)
+++++++++++++++++++
+
+**Bugfixes**
+
+- CVE-2015-2296: Fix handling of cookies on redirect. Previously a cookie
+  without a host value set would use the hostname for the redirected URL
+  exposing requests users to session fixation attacks and potentially cookie
+  stealing. This was disclosed privately by Matthew Daley of
+  `BugFuzz <https://bugfuzz.com>`_. This affects all versions of requests from
+  v2.1.0 to v2.5.3 (inclusive on both ends).
+
+- Fix error when requests is an ``install_requires`` dependency and ``python
+  setup.py test`` is run. (#2462)
+
+- Fix error when urllib3 is unbundled and requests continues to use the
+  vendored import location.
+
+- Include fixes to ``urllib3``'s header handling.
+
+- Requests' handling of unvendored dependencies is now more restrictive.
+
+**Features and Improvements**
+
+- Support bytearrays when passed as parameters in the ``files`` argument.
+  (#2468)
+
+- Avoid data duplication when creating a request with ``str``, ``bytes``, or
+  ``bytearray`` input to the ``files`` argument.
+
+2.5.3 (2015-02-24)
+++++++++++++++++++
+
+**Bugfixes**
+
+- Revert changes to our vendored certificate bundle. For more context see
+  (#2455, #2456, and http://bugs.python.org/issue23476)
+
+2.5.2 (2015-02-23)
+++++++++++++++++++
+
+**Features and Improvements**
+
+- Add sha256 fingerprint support. (`shazow/urllib3#540`_)
+
+- Improve the performance of headers. (`shazow/urllib3#544`_)
+
+**Bugfixes**
+
+- Copy pip's import machinery. When downstream redistributors remove
+  requests.packages.urllib3 the import machinery will continue to let those
+  same symbols work. Example usage in requests' documentation and 3rd-party
+  libraries relying on the vendored copies of urllib3 will work without having
+  to fallback to the system urllib3.
+
+- Attempt to quote parts of the URL on redirect if unquoting and then quoting
+  fails. (#2356)
+
+- Fix filename type check for multipart form-data uploads. (#2411)
+
+- Properly handle the case where a server issuing digest authentication
+  challenges provides both auth and auth-int qop-values. (#2408)
+
+- Fix a socket leak. (`shazow/urllib3#549`_)
+
+- Fix multiple ``Set-Cookie`` headers properly. (`shazow/urllib3#534`_)
+
+- Disable the built-in hostname verification. (`shazow/urllib3#526`_)
+
+- Fix the behaviour of decoding an exhausted stream. (`shazow/urllib3#535`_)
+
+**Security**
+
+- Pulled in an updated ``cacert.pem``.
+
+- Drop RC4 from the default cipher list. (`shazow/urllib3#551`_)
+
+.. _shazow/urllib3#551: https://github.com/shazow/urllib3/pull/551
+.. _shazow/urllib3#549: https://github.com/shazow/urllib3/pull/549
+.. _shazow/urllib3#544: https://github.com/shazow/urllib3/pull/544
+.. _shazow/urllib3#540: https://github.com/shazow/urllib3/pull/540
+.. _shazow/urllib3#535: https://github.com/shazow/urllib3/pull/535
+.. _shazow/urllib3#534: https://github.com/shazow/urllib3/pull/534
+.. _shazow/urllib3#526: https://github.com/shazow/urllib3/pull/526
+
 2.5.1 (2014-12-23)
 ++++++++++++++++++
 
@@ -103,7 +218,7 @@ Release History
 - Support for connect timeouts! Timeout now accepts a tuple (connect, read) which is used to set individual connect and read timeouts.
 - Allow copying of PreparedRequests without headers/cookies.
 - Updated bundled urllib3 version.
-- Refactored settings loading from environment — new `Session.merge_environment_settings`.
+- Refactored settings loading from environment -- new `Session.merge_environment_settings`.
 - Handle socket errors in iter_content.
 
 

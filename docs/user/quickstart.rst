@@ -73,6 +73,13 @@ You can see that the URL has been correctly encoded by printing the URL::
 Note that any dictionary key whose value is ``None`` will not be added to the
 URL's query string.
 
+In order to pass a list of items as a value you must mark the key as
+referring to a list like string by appending ``[]`` to the key::
+
+    >>> payload = {'key1': 'value1', 'key2[]': ['value2', 'value3']}
+    >>> r = requests.get("http://httpbin.org/get", params=payload)
+    >>> print(r.url)
+    http://httpbin.org/get?key1=value1&key2%5B%5D=value2&key2%5B%5D=value3
 
 Response Content
 ----------------
@@ -179,10 +186,18 @@ For example, we didn't specify our content-type in the previous example::
 
     >>> import json
     >>> url = 'https://api.github.com/some/endpoint'
-    >>> payload = {'some': 'data'}
-    >>> headers = {'content-type': 'application/json'}
+    >>> headers = {'user-agent': 'my-app/0.0.1'}
 
-    >>> r = requests.post(url, data=json.dumps(payload), headers=headers)
+    >>> r = requests.get(url, headers=headers)
+
+Note: Custom headers are given less precedence than more specific sources of information. For instance:
+
+* Authorization headers will be overridden if credentials are passed via the ``auth`` parameter or are specified in a ``.netrc`` accessible in the environment.
+* Authorization headers will be removed if you get redirected off-host.
+* Proxy-Authorization headers will be overridden by proxy credentials provided in the URL.
+* Content-Length headers will be overridden when we can determine the length of the content.
+
+Furthermore, Requests does not change its behavior at all based on which custom headers are specified. The headers are simply passed on into the final request.
 
 
 More complicated POST requests
@@ -268,7 +283,7 @@ In the event you are posting a very large file as a ``multipart/form-data``
 request, you may want to stream the request. By default, ``requests`` does not
 support this, but there is a separate package which does -
 ``requests-toolbelt``. You should read `the toolbelt's documentation
-<https://toolbelt.rtfd.org>`_ for more details about how to use it.
+<https://toolbelt.readthedocs.org>`_ for more details about how to use it.
 
 For sending multiple files in one request refer to the :ref:`advanced <advanced>`
 section.
@@ -340,6 +355,15 @@ So, we can access the headers using any capitalization we want::
     >>> r.headers.get('content-type')
     'application/json'
 
+It is also special in that the server could have sent the same header multiple
+times with different values, but requests combines them so they can be
+represented in the dictionary within a single mapping, as per
+`RFC 7230 <http://tools.ietf.org/html/rfc7230#section-3.2>`_:
+
+    > A recipient MAY combine multiple header fields with the same field name
+    > into one "field-name: field-value" pair, without changing the semantics
+    > of the message, by appending each subsequent field value to the combined
+    > field value in order, separated by a comma.
 
 Cookies
 -------

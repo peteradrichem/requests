@@ -301,13 +301,15 @@ class RequestsTestCase(unittest.TestCase):
         r = s.get(url)
         assert r.status_code == 200
 
-    def test_connection_error(self):
+    def test_connection_error_invalid_domain(self):
         """Connecting to an unknown domain should raise a ConnectionError"""
         with pytest.raises(ConnectionError):
-            requests.get("http://fooobarbangbazbing.httpbin.org")
+            requests.get("http://doesnotexist.google.com")
 
+    def test_connection_error_invalid_port(self):
+        """Connecting to an invalid port should raise a ConnectionError"""
         with pytest.raises(ConnectionError):
-            requests.get("http://httpbin.org:1")
+            requests.get("http://httpbin.org:1", timeout=1)
 
     def test_LocationParseError(self):
         """Inputing a URL that cannot be parsed should raise an InvalidURL error"""
@@ -933,6 +935,19 @@ class RequestsTestCase(unittest.TestCase):
 
         assert 'multipart/form-data' in p.headers['Content-Type']
 
+    def test_can_send_bytes_bytearray_objects_with_files(self):
+        # Test bytes:
+        data = {'a': 'this is a string'}
+        files = {'b': b'foo'}
+        r = requests.Request('POST', httpbin('post'), data=data, files=files)
+        p = r.prepare()
+        assert 'multipart/form-data' in p.headers['Content-Type']
+        # Test bytearrays:
+        files = {'b': bytearray(b'foo')}
+        r = requests.Request('POST', httpbin('post'), data=data, files=files)
+        p = r.prepare()
+        assert 'multipart/form-data' in p.headers['Content-Type']
+
     def test_can_send_file_object_with_non_string_filename(self):
         f = io.BytesIO()
         f.name = 2
@@ -1036,6 +1051,23 @@ class RequestsTestCase(unittest.TestCase):
         assert r.status_code == 200
         assert 'application/json' in r.request.headers['Content-Type']
         assert {'life': 42} == r.json()['json']
+
+    def test_response_iter_lines(self):
+        r = requests.get(httpbin('stream/4'), stream=True)
+        assert r.status_code == 200
+
+        it = r.iter_lines()
+        next(it)
+        assert len(list(it)) == 3
+
+    @pytest.mark.xfail
+    def test_response_iter_lines_reentrant(self):
+        """Response.iter_lines() is not reentrant safe"""
+        r = requests.get(httpbin('stream/4'), stream=True)
+        assert r.status_code == 200
+
+        next(r.iter_lines())
+        assert len(list(r.iter_lines())) == 3
 
 
 class TestContentEncodingDetection(unittest.TestCase):
@@ -1265,6 +1297,32 @@ class UtilsTestCase(unittest.TestCase):
             'http://localhost.localdomain:5000/v1.0/') == {}
         assert get_environ_proxies('http://www.requests.com/') != {}
 
+    def test_guess_filename_when_int(self):
+        from requests.utils import guess_filename
+        assert None is guess_filename(1)
+
+    def test_guess_filename_when_filename_is_an_int(self):
+        from requests.utils import guess_filename
+        fake = type('Fake', (object,), {'name': 1})()
+        assert None is guess_filename(fake)
+
+    def test_guess_filename_with_file_like_obj(self):
+        from requests.utils import guess_filename
+        from requests import compat
+        fake = type('Fake', (object,), {'name': b'value'})()
+        guessed_name = guess_filename(fake)
+        assert b'value' == guessed_name
+        assert isinstance(guessed_name, compat.bytes)
+
+    def test_guess_filename_with_unicode_name(self):
+        from requests.utils import guess_filename
+        from requests import compat
+        filename = b'value'.decode('utf-8')
+        fake = type('Fake', (object,), {'name': filename})()
+        guessed_name = guess_filename(fake)
+        assert filename == guessed_name
+        assert isinstance(guessed_name, compat.str)
+
     def test_is_ipv4_address(self):
         from requests.utils import is_ipv4_address
         assert is_ipv4_address('8.8.8.8')
@@ -1300,6 +1358,22 @@ class UtilsTestCase(unittest.TestCase):
         (username, password) = get_auth_from_url(url)
         assert username == percent_encoding_test_chars
         assert password == percent_encoding_test_chars
+
+    def test_requote_uri_with_unquoted_percents(self):
+        """Ensure we handle unquoted percent signs in redirects.
+
+        See: https://github.com/kennethreitz/requests/issues/2356
+        """
+        from requests.utils import requote_uri
+        bad_uri = 'http://example.com/fiz?buz=%ppicture'
+        quoted = 'http://example.com/fiz?buz=%25ppicture'
+        assert quoted == requote_uri(bad_uri)
+
+    def test_requote_uri_properly_requotes(self):
+        """Ensure requoting doesn't break expectations."""
+        from requests.utils import requote_uri
+        quoted = 'http://example.com/fiz?buz=%25ppicture'
+        assert quoted == requote_uri(quoted)
 
 
 class TestMorselToCookieExpires(unittest.TestCase):
@@ -1539,7 +1613,6 @@ def test_prepare_unicode_url():
     p.prepare(
         method='GET',
         url=u('http://www.example.com/üniçø∂é'),
-        hooks=[]
     )
     assert_copy(p, p.copy())
 
@@ -1553,6 +1626,13 @@ def test_urllib3_retries():
 
     with pytest.raises(RetryError):
         s.get(httpbin('status/500'))
+
+def test_vendor_aliases():
+    from requests.packages import urllib3
+    from requests.packages import chardet
+
+    with pytest.raises(ImportError):
+        from requests.packages import webbrowser
 
 if __name__ == '__main__':
     unittest.main()
