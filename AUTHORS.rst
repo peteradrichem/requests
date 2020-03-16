@@ -1,19 +1,16 @@
-Requests is written and maintained by Kenneth Reitz and
-various contributors:
+Requests was lovingly created by Kenneth Reitz.
 
-Keepers of the Three Crystals
-`````````````````````````````
+Keepers of the Crystals
+```````````````````````
 
-- Kenneth Reitz <me@kennethreitz.org> `@kennethreitz <https://github.com/kennethreitz>`_, Keeper of the Master Crystal.
+- Nate Prewitt `@nateprewitt <https://github.com/nateprewitt>`_.
+- Seth M. Larson `@sethmlarson <https://github.com/sethmlarson>`_.
+
+Previous Keepers of Crystals
+````````````````````````````
+- Kenneth Reitz <me@kennethreitz.org> `@kennethreitz <https://github.com/kennethreitz>`_, reluctant Keeper of the Master Crystal.
 - Cory Benfield <cory@lukasa.co.uk> `@lukasa <https://github.com/lukasa>`_
-- Ian Cordasco <graffatcolmingov@gmail.com> `@sigmavirus24 <https://github.com/sigmavirus24>`_
-
-
-
-Urllib3
-```````
-
-- Andrey Petrov <andrey.petrov@shazow.net>
+- Ian Cordasco <graffatcolmingov@gmail.com> `@sigmavirus24 <https://github.com/sigmavirus24>`_.
 
 
 Patches and Suggestions
@@ -127,14 +124,14 @@ Patches and Suggestions
 - Bryce Boe <bbzbryce@gmail.com> (`@bboe <https://github.com/bboe>`_)
 - Colin Dunklau <colin.dunklau@gmail.com> (`@cdunklau <https://github.com/cdunklau>`_)
 - Bob Carroll <bob.carroll@alum.rit.edu> (`@rcarz <https://github.com/rcarz>`_)
-- Hugo Osvaldo Barrera <hugo@osvaldobarrera.com.ar> (`@hobarrera <https://github.com/hobarrera>`_)
+- Hugo Osvaldo Barrera <hugo@barrera.io> (`@hobarrera <https://github.com/hobarrera>`_)
 - Łukasz Langa <lukasz@langa.pl>
 - Dave Shawley <daveshawley@gmail.com>
 - James Clarke (`@jam <https://github.com/jam>`_)
 - Kevin Burke <kev@inburke.com>
 - Flavio Curella
 - David Pursehouse <david.pursehouse@gmail.com> (`@dpursehouse <https://github.com/dpursehouse>`_)
-- Jon Parise
+- Jon Parise (`@jparise <https://github.com/jparise>`_)
 - Alexander Karpinsky (`@homm86 <https://twitter.com/homm86>`_)
 - Marc Schlaich (`@schlamar <https://github.com/schlamar>`_)
 - Park Ilsu <daftonshady@gmail.com> (`@daftshady <https://github.com/daftshady>`_)
@@ -158,3 +155,38 @@ Patches and Suggestions
 - Ulrich Petri (`@ulope <https://github.com/ulope>`_)
 - Muhammad Yasoob Ullah Khalid <yasoob.khld@gmail.com> (`@yasoob <https://github.com/yasoob>`_)
 - Paul van der Linden (`@pvanderlinden <https://github.com/pvanderlinden>`_)
+- Colin Dickson (`@colindickson <https://github.com/colindickson>`_)
+- Smiley Barry (`@smiley <https://github.com/smiley>`_)
+- Shagun Sodhani (`@shagunsodhani <https://github.com/shagunsodhani>`_)
+- Robin Linderborg (`@vienno <https://github.com/vienno>`_)
+- Brian Samek (`@bsamek <https://github.com/bsamek>`_)
+- Dmitry Dygalo (`@Stranger6667 <https://github.com/Stranger6667>`_)
+- piotrjurkiewicz
+- Jesse Shapiro <jesse@jesseshapiro.net> (`@haikuginger <https://github.com/haikuginger>`_)
+- Nate Prewitt <nate.prewitt@gmail.com> (`@nateprewitt <https://github.com/nateprewitt>`_)
+- Maik Himstedt
+- Michael Hunsinger
+- Brian Bamsch <bbamsch32@gmail.com> (`@bbamsch <https://github.com/bbamsch>`_)
+- Om Prakash Kumar <omprakash070@gmail.com> (`@iamprakashom <https://github.com/iamprakashom>`_)
+- Philipp Konrad <gardiac2002@gmail.com> (`@gardiac2002 <https://github.com/gardiac2002>`_)
+- Hussain Tamboli <hussaintamboli18@gmail.com> (`@hussaintamboli <https://github.com/hussaintamboli>`_)
+- Casey Davidson (`@davidsoncasey <https://github.com/davidsoncasey>`_)
+- Andrii Soldatenko (`@a_soldatenko <https://github.com/andriisoldatenko>`_)
+- Moinuddin Quadri <moin18@gmail.com> (`@moin18 <https://github.com/moin18>`_)
+- Matt Kohl (`@mattkohl <https://github.com/mattkohl>`_)
+- Jonathan Vanasco (`@jvanasco <https://github.com/jvanasco>`_)
+- David Fontenot (`@davidfontenot <https://github.com/davidfontenot>`_)
+- Shmuel Amar (`@shmuelamar <https://github.com/shmuelamar>`_)
+- Gary Wu (`@garywu <https://github.com/garywu>`_)
+- Ryan Pineo (`@ryanpineo <https://github.com/ryanpineo>`_)
+- Ed Morley (`@edmorley <https://github.com/edmorley>`_)
+- Matt Liu <liumatt@gmail.com> (`@mlcrazy <https://github.com/mlcrazy>`_)
+- Taylor Hoff <primdevs@protonmail.com> (`@PrimordialHelios <https://github.com/PrimordialHelios>`_)
+- Arthur Vigil (`@ahvigil <https://github.com/ahvigil>`_)
+- Nehal J Wani (`@nehaljwani <https://github.com/nehaljwani>`_)
+- Demetrios Bairaktaris (`@DemetriosBairaktaris <https://github.com/demetriosbairaktaris>`_)
+- Darren Dormer (`@ddormer <https://github.com/ddormer>`_)
+- Rajiv Mayani (`@mayani <https://github.com/mayani>`_)
+- Antti Kaihola (`@akaihola <https://github.com/akaihola>`_)
+- "Dull Bananas" <dull.bananas0@gmail.com> (`@dullbananas <https://github.com/dullbananas>`_)
+- Alessio Izzo (`@aless10 <https://github.com/aless10>`_)

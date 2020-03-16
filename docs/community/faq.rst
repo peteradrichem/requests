@@ -3,6 +3,8 @@
 Frequently Asked Questions
 ==========================
 
+.. image:: https://farm5.staticflickr.com/4290/35294660055_42c02b2316_k_d.jpg
+
 This part of the documentation answers common questions about Requests.
 
 Encoded Data?
@@ -19,7 +21,8 @@ Custom User-Agents?
 -------------------
 
 Requests allows you to easily override User-Agent strings, along with
-any other HTTP Header.
+any other HTTP Header. See `documentation about headers <https://requests.readthedocs.io/en/master/user/quickstart/#custom-headers>`_.
+
 
 
 Why not Httplib2?
@@ -51,17 +54,19 @@ Chris Adams gave an excellent summary on
 Python 3 Support?
 -----------------
 
-Yes! Here's a list of Python platforms that are officially
-supported:
+Yes! Requests officially supports Python 2.7 & 3.5+ and PyPy.
 
-* Python 2.6
-* Python 2.7
-* Python 3.1
-* Python 3.2
-* Python 3.3
-* Python 3.4
-* PyPy 1.9
-* PyPy 2.2
+Python 2 Support?
+-----------------
+
+Yes! We do not have immediate plans to `sunset
+<https://www.python.org/doc/sunset-python-2/>`_ our support for Python
+2.7. We understand that we have a large user base with varying needs,
+and intend to maintain Python 2.7 support within Requests until `pip
+stops supporting Python 2.7 (there's no estimated date on that yet)
+<https://pip.pypa.io/en/latest/development/release-process/#python-2-support>`_.
+
+That said, it is *highly* recommended users migrate to Python 3.5+ since Python 2.7 will no longer be receiving bug fixes or security updates after January 1, 2020.
 
 What are "hostname doesn't match" errors?
 -----------------------------------------
@@ -70,7 +75,7 @@ These errors occur when :ref:`SSL certificate verification <verification>`
 fails to match the certificate the server responds with to the hostname
 Requests thinks it's contacting. If you're certain the server's SSL setup is
 correct (for example, because you can visit the site with your browser) and
-you're using Python 2.6 or 2.7, a possible explanation is that you need
+you're using Python 2.7, a possible explanation is that you need
 Server-Name-Indication.
 
 `Server-Name-Indication`_, or SNI, is an official extension to SSL where the
@@ -79,9 +84,9 @@ when servers are using `Virtual Hosting`_. When such servers are hosting
 more than one SSL site they need to be able to return the appropriate
 certificate based on the hostname the client is connecting to.
 
-Python3's SSL module includes native support for SNI. This support has not been
-back ported to Python2. For information on using SNI with Requests on Python2
-refer to this `Stack Overflow answer`_.
+Python3 and Python 2.7.9+ include native support for SNI in their SSL modules.
+For information on using SNI with Requests on Python < 2.7.9 refer to this
+`Stack Overflow answer`_.
 
 .. _`Server-Name-Indication`: https://en.wikipedia.org/wiki/Server_Name_Indication
 .. _`virtual hosting`: https://en.wikipedia.org/wiki/Virtual_hosting
